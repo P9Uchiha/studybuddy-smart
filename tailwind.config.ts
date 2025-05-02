@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,35 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Study Buddy AI Custom Colors
+				"study-purple": {
+					50: "#F1F0FB",
+					100: "#D6BCFA",
+					200: "#B794F4",
+					300: "#9b87f5",
+					400: "#7E69AB",
+					500: "#553C9A",
+					600: "#42307D",
+					700: "#2D2264",
+					800: "#1A1F2C",
+					900: "#130E2A",
+				},
+				"study-blue": {
+					50: "#D3E4FD",
+					100: "#B6D0F8",
+					200: "#93B8F0",
+					300: "#6A94E0",
+				},
+				"study-neutral": {
+					50: "#FFFFFF",
+					100: "#F1F0FB",
+					200: "#E2E8F0",
+					300: "#CBD5E1",
+					400: "#8E9196",
+					500: "#64748B",
+					600: "#475569",
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +113,21 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'flip': {
+					'0%, 100%': { transform: 'rotateY(0deg)' },
+					'50%': { transform: 'rotateY(180deg)' },
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.6' },
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'flip': 'flip 0.8s ease-in-out',
+				'pulse-slow': 'pulse-slow 3s infinite ease-in-out',
 			}
 		}
 	},
