@@ -14,9 +14,12 @@ export default function QAPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold mb-6">AI Study Assistant</h1>
-            <p className="text-study-neutral-500 mb-6">
+            <p className="text-study-neutral-500 mb-2">
               Get instant answers to your study questions. Our AI assistant helps you understand complex topics and clear your doubts in real-time.
               Try asking questions about Newton's Second Law, photosynthesis, or the Pythagorean theorem.
+            </p>
+            <p className="text-study-neutral-400 text-sm mb-6 italic">
+              Note: For a production version, AI responses would be generated using an API key.
             </p>
             
             <Card className="p-6">

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CustomButton } from "@/components/ui/custom-button";
@@ -14,6 +13,8 @@ interface Message {
   timestamp: Date;
   isSaved?: boolean;
 }
+
+const API_KEY = process.env.REACT_APP_GROQ_API_KEY || ""; // API key will be stored in environment variable
 
 export default function QASection() {
   const [question, setQuestion] = useState("");
@@ -72,7 +73,10 @@ export default function QASection() {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Generate mock response
+      // In a production app, we would make an actual API call to Groq here
+      // const response = await fetchAIResponse(question, API_KEY);
+      
+      // For now, generate mock response
       const response = generateMockResponse(question);
       
       // Add AI response to conversation
