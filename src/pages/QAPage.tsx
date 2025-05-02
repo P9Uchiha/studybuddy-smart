@@ -19,7 +19,7 @@ export default function QAPage() {
               Try asking questions about Newton's Second Law, photosynthesis, or the Pythagorean theorem.
             </p>
             <p className="text-study-neutral-400 text-sm mb-6 italic">
-              Note: For a production version, AI responses would be generated using an API key.
+              Note: For a production version, you would add your API key as VITE_GROQ_API_KEY in a .env file.
             </p>
             
             <Card className="p-6">

@@ -35,7 +35,7 @@ export async function fetchAIResponse(question: string, apiKey: string): Promise
     */
     
     // For demo, return a mock response
-    console.log("Would make API call with key:", apiKey);
+    console.log("Would make API call with key:", apiKey ? "API key present" : "No API key provided");
     return "This is a mock response. In production, this would be replaced with an actual AI-generated response using the API key.";
   } catch (error) {
     console.error('Error fetching AI response:', error);

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CustomButton } from "@/components/ui/custom-button";
@@ -14,7 +15,8 @@ interface Message {
   isSaved?: boolean;
 }
 
-const API_KEY = process.env.REACT_APP_GROQ_API_KEY || ""; // API key will be stored in environment variable
+// In Vite, environment variables are accessed via import.meta.env instead of process.env
+const API_KEY = import.meta.env.VITE_GROQ_API_KEY || ""; 
 
 export default function QASection() {
   const [question, setQuestion] = useState("");
