@@ -1,9 +1,10 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface CustomButtonProps extends React.ComponentProps<typeof Button> {
+interface CustomButtonProps extends Omit<ButtonProps, 'variant'> {
   variant?: "default" | "outline" | "ghost" | "link" | "gradient";
   size?: "default" | "sm" | "lg" | "icon";
   children: React.ReactNode;
@@ -36,7 +37,7 @@ const CustomButton = React.forwardRef<HTMLButtonElement, CustomButtonProps>(
     return (
       <Button
         ref={ref}
-        variant={variant}
+        variant={variant as Exclude<CustomButtonProps['variant'], 'gradient'>}
         size={size}
         className={className}
         {...props}

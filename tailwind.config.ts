@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,6 +18,18 @@ export default {
 			}
 		},
 		extend: {
+			perspective: {
+				'1000': '1000px',
+			},
+			transformStyle: {
+				'3d': 'preserve-3d',
+			},
+			backfaceVisibility: {
+				'hidden': 'hidden',
+			},
+			transform: {
+				'rotate-y-180': 'rotateY(180deg)',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -63,7 +74,6 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Study Buddy AI Custom Colors
 				"study-purple": {
 					50: "#F1F0FB",
 					100: "#D6BCFA",
@@ -131,5 +141,24 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		function({ addUtilities }) {
+			const newUtilities = {
+				'.perspective-1000': {
+					'perspective': '1000px',
+				},
+				'.transform-style-3d': {
+					'transform-style': 'preserve-3d',
+				},
+				'.backface-hidden': {
+					'backface-visibility': 'hidden',
+				},
+				'.rotate-y-180': {
+					'transform': 'rotateY(180deg)',
+				}
+			}
+			addUtilities(newUtilities)
+		}
+	],
 } satisfies Config;
