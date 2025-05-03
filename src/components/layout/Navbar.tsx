@@ -47,7 +47,6 @@ export default function Navbar() {
         <div className="hidden md:flex items-center space-x-1">
           <NavLink to="/dashboard">Dashboard</NavLink>
           <NavLink to="/qa">Q&A</NavLink>
-          <NavLink to="/flashcards">Flashcards</NavLink>
           <NavLink to="/profile">Profile</NavLink>
           
           {isLoggedIn ? (
@@ -94,7 +93,6 @@ export default function Navbar() {
           <div className="flex flex-col space-y-2">
             <NavLink to="/dashboard" isMobile>Dashboard</NavLink>
             <NavLink to="/qa" isMobile>Q&A</NavLink>
-            <NavLink to="/flashcards" isMobile>Flashcards</NavLink>
             <NavLink to="/profile" isMobile>Profile</NavLink>
             
             {isLoggedIn ? (
