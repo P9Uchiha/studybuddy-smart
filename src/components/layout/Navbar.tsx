@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CustomButton } from "@/components/ui/custom-button";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,11 @@ export default function Navbar() {
       <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <BookOpen className="w-8 h-8 text-study-purple-300" />
+          <img 
+            src="/lovable-uploads/e3a65166-50e3-46ac-965a-824b6a71a9ae.png" 
+            alt="Study Buddy AI Logo" 
+            className="h-10 w-auto"
+          />
           <span className="font-bold text-xl text-study-neutral-800">Study Buddy AI</span>
         </Link>
 
