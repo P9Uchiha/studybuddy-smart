@@ -16,7 +16,7 @@ interface Message {
 }
 
 // In Vite, environment variables are accessed via import.meta.env instead of process.env
-const API_KEY = import.meta.env.VITE_GROQ_API_KEY || ""; 
+const API_KEY = import.meta.env.VITE_GROQ_API_KEY || "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"; 
 
 export default function QASection() {
   const [question, setQuestion] = useState("");
