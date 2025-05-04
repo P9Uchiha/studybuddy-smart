@@ -1,24 +1,14 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { CustomButton } from "@/components/ui/custom-button";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Search, Bookmark, BookmarkCheck } from "lucide-react";
-import { toast } from "sonner";
 
-interface Message {
-  id: string;
-  content: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
-  isSaved?: boolean;
-}
+import { useState } from "react";
+import { toast } from "sonner";
+import { Message } from "./types";
+import MessageList from "./MessageList";
+import QuestionForm from "./QuestionForm";
 
 // In Vite, environment variables are accessed via import.meta.env instead of process.env
 const API_KEY = import.meta.env.VITE_GROQ_API_KEY || "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"; 
 
 export default function QASection() {
-  const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState<Message[]>([
     {
@@ -52,8 +42,7 @@ export default function QASection() {
     return "I don't have specific information on that topic yet. In a complete implementation, I would connect to an AI service like Groq or xAI to provide accurate answers. For this demo, I can only answer questions about Newton's Second Law, photosynthesis, and the Pythagorean theorem.";
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (question: string) => {
     if (!question.trim()) {
       toast.error("Please enter a question");
       return;
@@ -90,7 +79,6 @@ export default function QASection() {
       };
       
       setConversation(prev => [...prev, aiMessage]);
-      setQuestion("");
     } catch (error) {
       toast.error("Failed to get a response. Please try again.");
       console.error("Error:", error);
@@ -114,83 +102,12 @@ export default function QASection() {
 
   return (
     <div className="flex flex-col h-full text-white">
-      {/* Conversation Display */}
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4">
-        {conversation.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div className={`
-              max-w-3xl p-4 rounded-2xl shadow-md
-              ${message.sender === 'user' 
-                ? 'qa-message-user' 
-                : 'qa-message-ai'}
-            `}>
-              <div className="flex flex-col">
-                <div className="flex justify-between items-start">
-                  <div className="prose prose-invert max-w-none">
-                    {message.content}
-                  </div>
-                  {message.sender === 'ai' && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="ml-2 -mt-1 -mr-2 text-study-green-300 hover:text-study-green-200 hover:bg-study-dark-800/50"
-                      onClick={() => toggleSaveMessage(message.id)}
-                    >
-                      {message.isSaved ? (
-                        <BookmarkCheck className="h-4 w-4" />
-                      ) : (
-                        <Bookmark className="h-4 w-4" />
-                      )}
-                    </Button>
-                  )}
-                </div>
-                <div className="text-xs text-right mt-2 opacity-70">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-        
-        {loading && (
-          <div className="flex justify-start">
-            <div className="qa-message-ai p-4 rounded-2xl">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-study-green-400 rounded-full animate-pulse"></div>
-                <div className="w-2 h-2 bg-study-green-400 rounded-full animate-pulse delay-150"></div>
-                <div className="w-2 h-2 bg-study-green-400 rounded-full animate-pulse delay-300"></div>
-                <span className="text-sm text-study-neutral-300">Study Buddy is thinking...</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Question Input */}
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
-        <Textarea
-          placeholder="Ask any study question... (e.g., What is Newton's Second Law?)"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          className="resize-none bg-study-dark-800 border-study-green-900/30 placeholder-study-neutral-400 text-white"
-          rows={3}
-          disabled={loading}
-        />
-        <div className="flex justify-end">
-          <CustomButton
-            type="submit"
-            variant="gradient"
-            disabled={loading || !question.trim()}
-            className="bg-gradient-to-r from-study-green-500 to-study-blue-500"
-          >
-            <Search className="h-4 w-4 mr-2" />
-            {loading ? "Getting Answer..." : "Ask Question"}
-          </CustomButton>
-        </div>
-      </form>
+      <MessageList 
+        messages={conversation} 
+        onToggleSave={toggleSaveMessage} 
+        loading={loading} 
+      />
+      <QuestionForm onSubmit={handleSubmit} loading={loading} />
     </div>
   );
 }
