@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CustomButton } from "@/components/ui/custom-button";
@@ -114,7 +113,7 @@ export default function QASection() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full text-white">
       {/* Conversation Display */}
       <div className="flex-1 overflow-y-auto mb-4 space-y-4">
         {conversation.map((message) => (
@@ -122,54 +121,50 @@ export default function QASection() {
             key={message.id}
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <Card className={`
-              max-w-3xl rounded-2xl
+            <div className={`
+              max-w-3xl p-4 rounded-2xl shadow-md
               ${message.sender === 'user' 
-                ? 'bg-study-purple-300 text-white' 
-                : 'bg-white'}
+                ? 'qa-message-user' 
+                : 'qa-message-ai'}
             `}>
-              <CardContent className="p-4">
-                <div className="flex flex-col">
-                  <div className="flex justify-between items-start">
-                    <div className="prose max-w-none">
-                      {message.content}
-                    </div>
-                    {message.sender === 'ai' && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="ml-2 -mt-1 -mr-2 text-study-neutral-400 hover:text-study-purple-400"
-                        onClick={() => toggleSaveMessage(message.id)}
-                      >
-                        {message.isSaved ? (
-                          <BookmarkCheck className="h-4 w-4" />
-                        ) : (
-                          <Bookmark className="h-4 w-4" />
-                        )}
-                      </Button>
-                    )}
+              <div className="flex flex-col">
+                <div className="flex justify-between items-start">
+                  <div className="prose prose-invert max-w-none">
+                    {message.content}
                   </div>
-                  <div className="text-xs text-right mt-2 opacity-70">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
+                  {message.sender === 'ai' && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="ml-2 -mt-1 -mr-2 text-study-green-300 hover:text-study-green-200 hover:bg-study-dark-800/50"
+                      onClick={() => toggleSaveMessage(message.id)}
+                    >
+                      {message.isSaved ? (
+                        <BookmarkCheck className="h-4 w-4" />
+                      ) : (
+                        <Bookmark className="h-4 w-4" />
+                      )}
+                    </Button>
+                  )}
                 </div>
-              </CardContent>
-            </Card>
+                <div className="text-xs text-right mt-2 opacity-70">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              </div>
+            </div>
           </div>
         ))}
         
         {loading && (
           <div className="flex justify-start">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-study-purple-300 rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-study-purple-300 rounded-full animate-pulse delay-150"></div>
-                  <div className="w-2 h-2 bg-study-purple-300 rounded-full animate-pulse delay-300"></div>
-                  <span className="text-sm text-study-neutral-400">Study Buddy is thinking...</span>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="qa-message-ai p-4 rounded-2xl">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-study-green-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-study-green-400 rounded-full animate-pulse delay-150"></div>
+                <div className="w-2 h-2 bg-study-green-400 rounded-full animate-pulse delay-300"></div>
+                <span className="text-sm text-study-neutral-300">Study Buddy is thinking...</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -180,7 +175,7 @@ export default function QASection() {
           placeholder="Ask any study question... (e.g., What is Newton's Second Law?)"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          className="resize-none"
+          className="resize-none bg-study-dark-800 border-study-green-900/30 placeholder-study-neutral-400 text-white"
           rows={3}
           disabled={loading}
         />
@@ -189,6 +184,7 @@ export default function QASection() {
             type="submit"
             variant="gradient"
             disabled={loading || !question.trim()}
+            className="bg-gradient-to-r from-study-green-500 to-study-blue-500"
           >
             <Search className="h-4 w-4 mr-2" />
             {loading ? "Getting Answer..." : "Ask Question"}
