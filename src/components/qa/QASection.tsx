@@ -4,12 +4,11 @@ import { toast } from "sonner";
 import { Message } from "./types";
 import MessageList from "./MessageList";
 import QuestionForm from "./QuestionForm";
-
-// In Vite, environment variables are accessed via import.meta.env instead of process.env
-const API_KEY = import.meta.env.VITE_GROQ_API_KEY || "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"; 
+import ApiKeyInput from "./ApiKeyInput";
 
 export default function QASection() {
   const [loading, setLoading] = useState(false);
+  const [apiKey, setApiKey] = useState<string>("");
   const [conversation, setConversation] = useState<Message[]>([
     {
       id: "welcome",
@@ -60,25 +59,40 @@ export default function QASection() {
     setLoading(true);
     
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // In a production app, we would make an actual API call to Groq here
-      // const response = await fetchAIResponse(question, API_KEY);
-      
-      // For now, generate mock response
-      const response = generateMockResponse(question);
-      
-      // Add AI response to conversation
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: response,
-        sender: 'ai',
-        timestamp: new Date(),
-        isSaved: false
-      };
-      
-      setConversation(prev => [...prev, aiMessage]);
+      // Check if API key is provided
+      if (!apiKey) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: "Please provide an API key to get AI-powered responses. For this demo, you can still ask about Newton's Second Law, photosynthesis, and the Pythagorean theorem.",
+          sender: "ai",
+          timestamp: new Date(),
+          isSaved: false
+        };
+        
+        setConversation(prev => [...prev, aiMessage]);
+      } else {
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // In a production app, we would make an actual API call to Groq here
+        // const response = await fetchAIResponse(question, apiKey);
+        
+        // For now, generate mock response
+        const response = generateMockResponse(question);
+        
+        // Add AI response to conversation
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: response,
+          sender: 'ai',
+          timestamp: new Date(),
+          isSaved: false
+        };
+        
+        setConversation(prev => [...prev, aiMessage]);
+      }
     } catch (error) {
       toast.error("Failed to get a response. Please try again.");
       console.error("Error:", error);
@@ -100,8 +114,13 @@ export default function QASection() {
     }
   };
 
+  const handleApiKeyChange = (newApiKey: string) => {
+    setApiKey(newApiKey);
+  };
+
   return (
     <div className="flex flex-col h-full text-white">
+      <ApiKeyInput onApiKeyChange={handleApiKeyChange} />
       <MessageList 
         messages={conversation} 
         onToggleSave={toggleSaveMessage} 

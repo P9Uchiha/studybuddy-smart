@@ -15,10 +15,10 @@ export default function QAPage() {
             <h1 className="text-3xl font-bold mb-4 text-white text-shadow">AI Study Assistant</h1>
             <p className="text-study-neutral-300 mb-2">
               Get instant answers to your study questions. Our AI assistant helps you understand complex topics and clear your doubts in real-time.
-              Try asking questions about Newton's Second Law, photosynthesis, or the Pythagorean theorem.
             </p>
-            <p className="text-study-neutral-400 text-sm mb-6 italic">
-              Note: For a production version, you would add your API key as VITE_GROQ_API_KEY in a .env file.
+            <p className="text-study-neutral-400 text-sm mb-4">
+              To use the AI features, please provide your API key from <a href="https://console.groq.com/keys" target="_blank" rel="noreferrer" className="text-study-green-400 hover:underline">Groq</a>.
+              For demo purposes, you can also ask about Newton's Second Law, photosynthesis, or the Pythagorean theorem without an API key.
             </p>
           </div>
             
