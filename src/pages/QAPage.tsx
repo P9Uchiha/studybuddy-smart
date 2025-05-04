@@ -18,6 +18,7 @@ export default function QAPage() {
             </p>
             <p className="text-study-neutral-400 text-sm mb-4">
               To use the AI features, please provide your API key from <a href="https://console.groq.com/keys" target="_blank" rel="noreferrer" className="text-study-green-400 hover:underline">Groq</a>.
+              Your API key is stored locally in your browser and never sent to our servers.
               For demo purposes, you can also ask about Newton's Second Law, photosynthesis, or the Pythagorean theorem without an API key.
             </p>
           </div>

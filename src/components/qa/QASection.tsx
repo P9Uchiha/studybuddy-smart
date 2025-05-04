@@ -5,6 +5,7 @@ import { Message } from "./types";
 import MessageList from "./MessageList";
 import QuestionForm from "./QuestionForm";
 import ApiKeyInput from "./ApiKeyInput";
+import { fetchAIResponse } from "@/utils/ai-service";
 
 export default function QASection() {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,7 @@ export default function QASection() {
     }
   ]);
 
+  // Mock responses for demo without API key
   const mockResponses: Record<string, string> = {
     "What is Newton's Second Law?": 
       "Newton's Second Law of Motion states that the force acting on an object is equal to the mass of the object multiplied by its acceleration (F = ma). This law explains how the velocity of an object changes when it is subjected to an external force.",
@@ -60,39 +62,36 @@ export default function QASection() {
     
     try {
       // Check if API key is provided
+      let response: string;
+      
       if (!apiKey) {
+        // For demo without API key, use mock responses
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: "Please provide an API key to get AI-powered responses. For this demo, you can still ask about Newton's Second Law, photosynthesis, and the Pythagorean theorem.",
-          sender: "ai",
-          timestamp: new Date(),
-          isSaved: false
-        };
-        
-        setConversation(prev => [...prev, aiMessage]);
+        response = generateMockResponse(question);
       } else {
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // In a production app, we would make an actual API call to Groq here
-        // const response = await fetchAIResponse(question, apiKey);
-        
-        // For now, generate mock response
-        const response = generateMockResponse(question);
-        
-        // Add AI response to conversation
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: response,
-          sender: 'ai',
-          timestamp: new Date(),
-          isSaved: false
-        };
-        
-        setConversation(prev => [...prev, aiMessage]);
+        // Make actual API call
+        try {
+          response = await fetchAIResponse(question, apiKey);
+        } catch (error) {
+          console.error("Error with AI service:", error);
+          toast.error("Failed to get a response from the AI service. Please check your API key.");
+          
+          // Fallback to mock responses if API call fails
+          response = "Sorry, I couldn't connect to the AI service. " + 
+            (error instanceof Error ? error.message : "Please verify your API key or try again later.");
+        }
       }
+      
+      // Add AI response to conversation
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: response,
+        sender: 'ai',
+        timestamp: new Date(),
+        isSaved: false
+      };
+      
+      setConversation(prev => [...prev, aiMessage]);
     } catch (error) {
       toast.error("Failed to get a response. Please try again.");
       console.error("Error:", error);
